@@ -14,17 +14,21 @@ import java.util.regex.Pattern;
  */
 public class Spider {
 
+
+    public Spider() {
+    }
+
     /*
-     * 获取网页内容
-     */
+         * 获取网页内容
+         */
     public String getHtmlContent(String htmlurl) throws IOException {
         URL url;
         String temp;
         StringBuffer sb = new StringBuffer();
         try {
             url = new URL(htmlurl);
-            BufferedReader in = new BufferedReader(new InputStreamReader(
-                    url.openStream(), "utf-8"));// 读取网页全部内容
+            //读取网页全部内容
+            BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream(), "utf-8"));
             while ((temp = in.readLine()) != null) {
                 sb.append(temp);
             }
@@ -68,6 +72,7 @@ public class Spider {
         String content = "";
         String regex = "id=\"hidden\" value=\"(.*?)\" />";
         content = regexTools(s, regex, 19, 4);
+        content = replaceTools(content);
         return content;
     }
 
@@ -89,7 +94,6 @@ public class Spider {
 
         try {
             if (rectno.length == title.length) {
-
                 for (int i = 0; i < rectno.length; i++) {
                     tm.put(rectno[i], title[i]);
                 }
@@ -143,8 +147,11 @@ public class Spider {
         return null;
     }
 
-    private static String replaceTools(String content, String regex) {
-        String s = content.replace(content, "");
-        return s;
+    private static String replaceTools(String content) {
+        String[] replace = {"&amp;nbsp;", "&lt;P>", "&lt;STRONG>", "&lt;/STRONG>", "&lt;BR>", "&lt;/P>"};
+        for (String rep : replace) {
+            content = content.replace(rep, "");
+        }
+        return content;
     }
 }
