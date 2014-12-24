@@ -22,22 +22,11 @@ public class SpiderTest {
         s = new Spider();
     }
 
-    /**
-     * 获得相关的网站内容
-     */
-    @Test
-    public void testGetHtmlContent() {
-        try {
-            c = s.getHtmlContent("http://xb.sdibt.edu.cn/search.aspx?id=2&keyword=35");
-        } catch (IOException e) {
-            e.printStackTrace();
-            fail();
-        }
-        assertNotNull(c);
-    }
 
     /**
      * 获取编号列表
+     *
+     * @Todo 测试相关列表
      */
     @Test
     public void testGetListRectno() {
@@ -53,6 +42,36 @@ public class SpiderTest {
 //        }
         assertNotNull(l);
     }
+
+    @Test
+    public void testGetListRectnoNull() {
+        try {
+            c = s.getHtmlContent("http://xb.sdibt.edu.cn/search.aspx?id=2&keyword=40");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        l = s.getListRectno(c);
+        assertNull(l);
+//        for (int i = 0; i < l.length; i++) {
+//            System.out.println(l[i]);
+//        }
+    }
+
+
+    /**
+     * 获得相关的网站内容
+     */
+    @Test
+    public void testGetHtmlContent() {
+        try {
+            c = s.getHtmlContent("http://xb.sdibt.edu.cn/search.aspx?id=2&keyword=35");
+        } catch (IOException e) {
+            e.printStackTrace();
+            fail();
+        }
+        assertNotNull(c);
+    }
+
 
     /**
      * 获取题目编号
@@ -72,20 +91,47 @@ public class SpiderTest {
         assertNotNull(t);
     }
 
+
+    @Test
+    public void testGetListTitleNull() {
+        try {
+            c = s.getHtmlContent("http://xb.sdibt.edu.cn/search.aspx?id=0&keyword=hehe");
+        } catch (IOException e) {
+            e.printStackTrace();
+            fail();
+        }
+        t = s.getListTitle(c);
+        assertNull(t);
+    }
+
     /**
      * 获取内容
      */
     @Test
     public void testGetContent() {
         try {
-            c = s.getHtmlContent("http://xb.sdibt.edu.cn/contentpage.aspx?rectno=2013370101");
+            c = s.getHtmlContent("http://xb.sdibt.edu.cn/contentpage.aspx?rectno=2013370102");
         } catch (IOException e) {
             e.printStackTrace();
         }
         String w = "";
         w = s.getContent(c);
-        System.out.println(w);
+        assertNotNull(w);
+//        System.out.println(w);
     }
+
+    @Test
+    public void testGetContentWrong() {
+        try {
+            c = s.getHtmlContent("http://xb.sdibt.edu.cn/contentpage.aspx?rectno=2013370102");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String w = "";
+        w = s.getContent(c);
+        assertNotNull(w);
+    }
+
 
     @Test
     public void testGetTitle() {
@@ -111,7 +157,7 @@ public class SpiderTest {
 
         // 获取题目列表
         String[] t = s.getListTitle(c);
-        TreeMap tm = new TreeMap();
+        TreeMap tm;
         tm = s.getListMap(l, t);
         assertNotNull(tm);
         // 使用Iterator遍历HashMap
@@ -120,6 +166,21 @@ public class SpiderTest {
 //            String key = (String) it.next();
 //            System.out.println("key:" + key + "  value:" + tm.get(key));
 //        }
+    }
+
+    @Test
+    public void testGetListMapNull() {
+        try {
+            c = s.getHtmlContent("http://xb.sdibt.edu.cn/search.aspx?id=2&keyword=0");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String[] l = s.getListRectno(c);
+        String[] t = s.getListTitle(c);
+        TreeMap tm;
+        tm = s.getListMap(l, t);
+        assertNull(tm);
+
     }
 
     @Test
@@ -132,7 +193,8 @@ public class SpiderTest {
         }
         String l = "";
         l = s.getLatest(c);
-        assertEquals(l, "37");
+        assertEquals(l, "38");
     }
+
 
 }

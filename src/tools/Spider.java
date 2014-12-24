@@ -19,8 +19,8 @@ public class Spider {
     }
 
     /*
-         * 获取网页内容
-         */
+    * 获取网页内容
+    * */
     public String getHtmlContent(String htmlurl) throws IOException {
         URL url;
         String temp;
@@ -49,8 +49,13 @@ public class Spider {
         String rectno = "";
         String regex = "id=\"hiddenrectno\" value=\"(.*?)\" />";
         rectno = regexTools(s, regex, 25, 5);
-        String[] rectnoStringList = rectno.split(",");
-        return rectnoStringList;
+        //@Todo detect the content
+        if (rectno != null) {
+            String[] rectnoStringList = rectno.split(",");
+            return rectnoStringList;
+        } else {
+            return null;
+        }
     }
 
     /*
@@ -60,9 +65,13 @@ public class Spider {
         String title = "";
         String regex = "id=\"hiddentitle\" value=\"(.*?)。\" />";
         // get the real number
-        title = regexTools(s, regex, 24, 6);
-        String[] titleList = title.split("。");
-        return titleList;
+        title = regexTools(s, regex, 24, 5);
+        if (title != null) {
+            String[] titleList = title.split("。");
+            return titleList;
+        } else {
+            return null;
+        }
     }
 
     /*
@@ -91,21 +100,23 @@ public class Spider {
     public TreeMap<String, String> getListMap(String[] rectno, String[] title) {
 
         TreeMap<String, String> tm = new TreeMap<String, String>();
-
+        //check rectno or title is null
+        if (rectno == null || title == null) {
+            return null;
+        }
         try {
             if (rectno.length == title.length) {
                 for (int i = 0; i < rectno.length; i++) {
                     tm.put(rectno[i], title[i]);
                 }
+                return tm;
             } else {
                 throw new Exception();
             }
-
         } catch (Exception e) {
-            System.out.print("news' length is not compare to titles' length");
+            System.err.print("news' length is not compare to titles' length");
+            return null;
         }
-
-        return tm;
     }
 
     /*
@@ -128,30 +139,25 @@ public class Spider {
      *
      * @end 需要分隔的后字符
      */
-    private static String regexTools(String content, String regex, int begin,
-                                     int end) {
+    private static String regexTools(String content, String regex, int begin, int end) {
         String s = "";
         Pattern pa = Pattern.compile(regex);
         Matcher ma = pa.matcher(content);
-        try {
-            if (ma.find()) {
-                s = ma.group();
-                s = s.substring(begin, s.length() - end);
-                return s;
-            } else {
-                throw new Exception();
-            }
-        } catch (Exception e) {
-            System.out.print("no content");
+        if (ma.find()) {
+            s = ma.group();
+            s = s.substring(begin, s.length() - end);
+            return s;
+        } else {
+            return null;
         }
-        return null;
     }
 
     private static String replaceTools(String content) {
-        String[] replace = {"&amp;nbsp;", "&lt;P>", "&lt;STRONG>", "&lt;/STRONG>", "&lt;BR>", "&lt;/P>"};
+        String[] replace = {"&amp;nbsp;", "&lt;P>", "&lt;STRONG>", "&lt;/STRONG>", "&lt;BR>", "&lt;/P>", " "};
         for (String rep : replace) {
             content = content.replace(rep, "");
         }
         return content;
     }
+
 }

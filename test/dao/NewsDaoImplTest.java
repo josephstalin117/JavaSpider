@@ -28,8 +28,20 @@ public class NewsDaoImplTest {
         Iterator<News> iter = a.iterator();
         while (iter.hasNext()) {
             News item = iter.next();
+//            System.out.println(item.toString());
         }
     }
+
+    /**
+     * Test return null of getAllNewsRectnoByIssue
+     */
+    @Test
+    public void testGetAllNewsRectnoByIssueNull() {
+        ArrayList<News> a = new ArrayList<News>();
+        a = ndi.getAllNewsRectnoByIssue("0");
+        assertNull(a);
+    }
+
 
     /**
      * Test getNewsByRestno
@@ -46,12 +58,22 @@ public class NewsDaoImplTest {
     @Test
     public void testGetNewsByAuthor() {
         ArrayList<News> a = new ArrayList<News>();
-        a = ndi.getNewsByAuthor("李");
-
+        a = ndi.getNewsByAuthor("宁");
         Iterator<News> iter = a.iterator();
         while (iter.hasNext()) {
             News item = iter.next();
+//            System.out.println(item.toString());
         }
+    }
+
+    /**
+     * Test return null getAllNewsRectnoByAuthor
+     */
+    @Test
+    public void testGetNewsByAuthorNull() {
+        ArrayList<News> a = new ArrayList<News>();
+        a = ndi.getNewsByAuthor("hehe");
+        assertNull(a);
     }
 
     /**
@@ -60,12 +82,23 @@ public class NewsDaoImplTest {
     @Test
     public void testGetNewsByTitle() {
         ArrayList<News> a = new ArrayList<News>();
-        a = ndi.getNewsByTitle("3562名学生喜获国家奖助学金");
+        a = ndi.getNewsByTitle("好");
         assertNotNull(a);
     }
 
     /**
-     * 测试最新的新闻
+     * Test the Null getAllNewsRectnoByTitle
+     */
+    @Test
+    public void testGetNewsByTitleNull() {
+        ArrayList<News> a = new ArrayList<News>();
+        a = ndi.getNewsByTitle("hehe");
+        assertNull(a);
+    }
+
+
+    /**
+     * test the latest News
      */
     @Test
     public void testGetLatestNews() {
