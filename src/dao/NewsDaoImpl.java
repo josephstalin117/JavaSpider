@@ -79,20 +79,25 @@ public class NewsDaoImpl implements NewsDao {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
-            System.out.println("不存在此方法");
+            System.out.println("this method is not exist");
             e.printStackTrace();
         }
         String[] l = sp.getListRectno(c);
         String[] t = sp.getListTitle(c);
-        TreeMap tm = new TreeMap();
-        tm = sp.getListMap(l, t);
-        //使用Iterator遍历HashMap
-        Iterator it = tm.keySet().iterator();
-        while (it.hasNext()) {
-            String rectno = (String) it.next();
-            String title = (String) tm.get(rectno);
-            nwList.add(new News(rectno, title));
+        if (l != null || t != null) {
+            TreeMap tm;
+            tm = sp.getListMap(l, t);
+            //使用Iterator遍历HashMap
+            Iterator it = tm.keySet().iterator();
+            while (it.hasNext()) {
+                String rectno = (String) it.next();
+                String title = (String) tm.get(rectno);
+                nwList.add(new News(rectno, title));
+            }
+            return nwList;
+        } else {
+            return null;
         }
-        return nwList;
+
     }
 }
