@@ -28,6 +28,7 @@ public class Spider {
         try {
             url = new URL(htmlurl);
             //读取网页全部内容
+            //@TODO need to check the internet
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream(), "utf-8"));
             while ((temp = in.readLine()) != null) {
                 sb.append(temp);

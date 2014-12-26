@@ -59,11 +59,13 @@ public class NewsDaoImplTest {
     public void testGetNewsByAuthor() {
         ArrayList<News> a = new ArrayList<News>();
         a = ndi.getNewsByAuthor("宁");
-        Iterator<News> iter = a.iterator();
-        while (iter.hasNext()) {
-            News item = iter.next();
+//        Iterator<News> iter = a.iterator();
+//        while (iter.hasNext()) {
+//            News item = iter.next();
 //            System.out.println(item.toString());
-        }
+//        }
+        System.out.println(a.toString());
+        assertNotNull(a);
     }
 
     /**
@@ -82,8 +84,8 @@ public class NewsDaoImplTest {
     @Test
     public void testGetNewsByTitle() {
         ArrayList<News> a = new ArrayList<News>();
-        a = ndi.getNewsByTitle("好");
-        assertNotNull(a);
+        a = ndi.getNewsByTitle("宁");
+        System.out.print(a.toString());
     }
 
     /**
