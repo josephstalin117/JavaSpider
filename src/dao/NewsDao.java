@@ -1,5 +1,7 @@
 package dao;
 
+import entity.News;
+
 import java.util.ArrayList;
 
 /**

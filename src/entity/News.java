@@ -1,4 +1,4 @@
-package dao;
+package entity;
 
 /**
  * Created by stalin on 12/11/2014.

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeMap;
 
+import entity.News;
 import tools.Spider;
 import tools.UrlCuter;
 
